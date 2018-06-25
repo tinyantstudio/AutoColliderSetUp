@@ -1,2 +1,5 @@
 # AutoColliderSetUp
-tools set up Character's colliders
+Tools set up Character's colliders
+
+#### Unity3d's Collider
+#### Line Sphere "Collider"
