@@ -25,7 +25,5 @@ Tools set up Character's colliders We use Humanoid Character to get Avatar bone 
 5. Select target you want to clear and click clear (normal collider and fake line-sphere collider)
 
 
-#### Unity3d's Collider
-![Collider](https://github.com/frideal/AutoColliderSetUp/blob/master/Files/UnityCollider.png)
-#### Line-Sphere "Collider"
-![Collider](https://github.com/frideal/AutoColliderSetUp/blob/master/Files/LineSphereCollider.png)
+#### Result
+![Shot](https://github.com/frideal/AutoColliderSetUp/blob/master/Files/shot.png)
