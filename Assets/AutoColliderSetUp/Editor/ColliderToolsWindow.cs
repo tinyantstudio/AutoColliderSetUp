@@ -25,14 +25,14 @@ namespace FastToolsPackage.AutoWrapBodyCollider
 
         private void OnGUI()
         {
-            EditorTools.DrawLabelWithColorInBox("Collider Tools Window", Color.green);
             EditorGUILayout.HelpBox("Copy , Clear Humanoid Collider", MessageType.Info);
+            EditorTools.DrawLabelWithColorInBox("Copy", Color.green);
 
             m_Src = EditorGUILayout.ObjectField("Source", m_Src, typeof(GameObject), true) as GameObject;
             m_Des = EditorGUILayout.ObjectField("Destination", m_Des, typeof(GameObject), true) as GameObject;
 
             // If your humanoid character has same "bone" name
-            if (GUILayout.Button("Copy Line-Sphere With Same Hierarchy"))
+            if (GUILayout.Button("Copy Line-Sphere With Same Hierarchy", GUILayout.MinHeight(25)))
             {
                 if (m_Src == null || m_Des == null)
                 {
@@ -43,9 +43,8 @@ namespace FastToolsPackage.AutoWrapBodyCollider
                     FTPColliderTools.CopyLineSphereColliderWithSameHierarchy(m_Src, m_Des);
                 }
             }
-
             // If your humanoid character has unsame "bone" name you can use Avatar to copy Collider
-            if (GUILayout.Button("Copy Line-Sphere with Avatar Settings"))
+            if (GUILayout.Button("Copy Line-Sphere with Avatar Settings", GUILayout.MinHeight(25)))
             {
                 if (m_Src == null || m_Des == null)
                 {
@@ -57,15 +56,17 @@ namespace FastToolsPackage.AutoWrapBodyCollider
                 }
             }
 
+            EditorTools.DrawSpace(4);
+            EditorTools.DrawLabelWithColorInBox("Clear", Color.green);
             m_ClearHumanoidColliderTarget = EditorGUILayout.ObjectField("Clear Target", m_ClearHumanoidColliderTarget, typeof(GameObject), true) as GameObject;
             // clear line-sphere collider
-            if (GUILayout.Button("Clear Line-Sphere Collider"))
+            if (GUILayout.Button("Clear Line-Sphere Collider", GUILayout.MinHeight(25)))
             {
                 FTPColliderTools.ClearLineSphereCollider(m_ClearHumanoidColliderTarget);
             }
 
             // clear normal box or other real collider
-            if (GUILayout.Button("Clear Normal Collider"))
+            if (GUILayout.Button("Clear Normal Collider", GUILayout.MinHeight(25)))
             {
             }
         }

@@ -132,5 +132,10 @@ namespace FastToolsPackage.AutoWrapBodyCollider
                 }
             }
         }
+
+        public static void ClearNormalCollider(GameObject clearTarget)
+        {
+
+        }
     }
 }
