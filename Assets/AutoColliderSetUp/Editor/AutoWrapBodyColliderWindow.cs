@@ -7,7 +7,7 @@ namespace FastToolsPackage.AutoWrapBodyCollider
 {
     public class AutoWrapBodyColliderWindow : EditorWindow
     {
-        [MenuItem("FTP_Tools/AutoWrapHumanBodyColliders", false, 2000)]
+        [MenuItem("FTP_Tools/FTP - AutoWrapHumanBodyColliders", false, 2000)]
         public static void DoWindow()
         {
             var window = GetWindow<AutoWrapBodyColliderWindow>("FastToolsPackage.AutoWrapBodyCollider");

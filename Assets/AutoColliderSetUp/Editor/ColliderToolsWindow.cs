@@ -10,7 +10,7 @@ namespace FastToolsPackage.AutoWrapBodyCollider
     //
     public class ColliderToolsWindow : EditorWindow
     {
-        [MenuItem("FTP_Tools/ColliderTools", false, 2001)]
+        [MenuItem("FTP_Tools/FTP - ColliderTools", false, 2001)]
         public static void DoWindow()
         {
             var window = GetWindow<ColliderToolsWindow>("FTP Collider Tools");
@@ -22,6 +22,8 @@ namespace FastToolsPackage.AutoWrapBodyCollider
         public GameObject m_Des;
 
         public GameObject m_ClearHumanoidColliderTarget;
+        private HumanBodyBoneReferenceData newAvatarBoneData;
+
 
         private void OnGUI()
         {
@@ -66,8 +68,37 @@ namespace FastToolsPackage.AutoWrapBodyCollider
             }
 
             // clear normal box or other real collider
+            // just clear bone collider with avatar bone map
             if (GUILayout.Button("Clear Normal Collider", GUILayout.MinHeight(25)))
             {
+                if (m_ClearHumanoidColliderTarget != null)
+                {
+                    Animator animator = m_ClearHumanoidColliderTarget.GetComponent<Animator>();
+                    if (animator == null || !animator.isHuman || animator.avatar == null)
+                    {
+                        EditorTools.ShowMessage("Collider Target Need Animator to get avatar bone map.check Collider target is the Animator root?" +
+                            "And We need Humanoid Target and with Avatar set");
+                    }
+                    else
+                    {
+                        if (EditorUtility.DisplayDialog("Message", "Clear Humanoid Normal Collider with Avatar Bone?", "OK", "Cancel"))
+                        {
+                            if (newAvatarBoneData == null)
+                                newAvatarBoneData = new HumanBodyBoneReferenceData();
+                            newAvatarBoneData.ResetReference();
+                            newAvatarBoneData.MapHumanAvatarToBoneReferences(m_ClearHumanoidColliderTarget.transform, animator);
+
+                            foreach (var bone in newAvatarBoneData._dicBones)
+                            {
+                                if (bone.Value != null)
+                                {
+                                    Collider[] colliders = bone.Value.GetComponents<Collider>();
+                                    for (int i = 0; i < colliders.Length; i++) { Object.DestroyImmediate(colliders[i]); }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
