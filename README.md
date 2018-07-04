@@ -3,6 +3,8 @@ Tools set up Character's colliders We use Humanoid Character to get Avatar bone 
 
 ### How to use
 
+![Window](https://github.com/frideal/AutoColliderSetUp/blob/master/Files/window.png)
+
 ##### Auto Wrap
 1. Open FTP_Tools/ FTP - AutoWrapHumanBodyColliders.
 2. Select Collider Type (Normal and Line-Sphere Fake Collider).
@@ -22,8 +24,8 @@ Tools set up Character's colliders We use Humanoid Character to get Avatar bone 
 4. If they are unsame bone hierarchy u can use Avatar to map the right bone
 5. Select target you want to clear and click clear (normal collider and fake line-sphere collider)
 
+
 #### Unity3d's Collider
 ![Collider](https://github.com/frideal/AutoColliderSetUp/blob/master/Files/UnityCollider.png)
 #### Line-Sphere "Collider"
 ![Collider](https://github.com/frideal/AutoColliderSetUp/blob/master/Files/LineSphereCollider.png)
-#### Auto-Wrap Collider Window
