@@ -147,7 +147,7 @@ namespace FastToolsPackage.AutoWrapBodyCollider
                     mg.InitRootColliderManagerWhenCreate();
                 }
             }
-            Debug.Log("## Create Joints Point collider over ##");
+            // Debug.Log("## Create Joints Point collider over ##");
         }
 
         private static float GetRadius(float upperArmDis, float legDis, float torsoWidth, HumanBodyBones bone)
