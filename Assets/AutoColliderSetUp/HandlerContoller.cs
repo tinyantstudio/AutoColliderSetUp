@@ -11,7 +11,7 @@ namespace FastToolsPackage.AutoWrapBodyCollider
         private void OnDrawGizmos()
         {
             Color color = Gizmos.color;
-            Gizmos.color = Color.blue;
+            Gizmos.color = Color.red;
             Gizmos.DrawSphere(transform.position, 0.03f);
             Gizmos.color = color;
         }

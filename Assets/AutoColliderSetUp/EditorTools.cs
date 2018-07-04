@@ -25,5 +25,10 @@ namespace FastToolsPackage.AutoWrapBodyCollider
                 count--;
             }
         }
+
+        public static void ShowMessage(string message)
+        {
+            EditorUtility.DisplayDialog("Message", message, "OK");
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace FastToolsPackage.AutoWrapBodyCollider
         [MenuItem("FTP_Tools/AutoWrapHumanBodyColliders", false, 2000)]
         public static void DoWindow()
         {
-            var window = GetWindow<AutoWrapBodyColliderWindow>(true, "FastToolsPackage.AutoWrapBodyCollider");
+            var window = GetWindow<AutoWrapBodyColliderWindow>("FastToolsPackage.AutoWrapBodyCollider");
             window.minSize = new Vector3(750, 600);
             window.Show();
         }
@@ -35,7 +35,7 @@ namespace FastToolsPackage.AutoWrapBodyCollider
         public enum AutoWrapColliderMode
         {
             Normal = 0,
-            PointLine,
+            LineSphereFakeCollider,
         }
 
         private float _lastTime = 0.0f;
@@ -128,7 +128,7 @@ namespace FastToolsPackage.AutoWrapBodyCollider
                 {
                     LineSphereCollider lsc = _targetObj.GetComponentInChildren<LineSphereCollider>();
                     _linePointCS._initLineSphereOver = (lsc != null);
-                    Debug.Log("## change to different Target object ##");
+                    // Debug.Log("## change to different Target object ##");
                 }
             }
 
@@ -166,14 +166,14 @@ namespace FastToolsPackage.AutoWrapBodyCollider
                     AutoCreateCollier();
                 }
 
-                if (_mode == AutoWrapColliderMode.PointLine && GUILayout.Button("Reset Line Point Collider", GUILayout.MinHeight(50)))
+                if (_mode == AutoWrapColliderMode.LineSphereFakeCollider && GUILayout.Button("Reset Line Point Collider", GUILayout.MinHeight(50)))
                 {
                     _linePointCS.DestroyHandlers();
                     _linePointCS = new LineSphereColliderSettings();
                     ResetLinePointWrapCollider();
                 }
 
-                if (_mode == AutoWrapColliderMode.PointLine)
+                if (_mode == AutoWrapColliderMode.LineSphereFakeCollider)
                 {
                     // set all settings
                     LineSphereCollider[] allCollider = _targetObj.GetComponentsInChildren<LineSphereCollider>(true);
@@ -201,7 +201,7 @@ namespace FastToolsPackage.AutoWrapBodyCollider
                 {
                     DrawNormalModeColliderSettings();
                 }
-                else if (_mode == AutoWrapColliderMode.PointLine)
+                else if (_mode == AutoWrapColliderMode.LineSphereFakeCollider)
                 {
                     if (!_boneReference.IsValid())
                         EditorGUILayout.HelpBox("Config Body Collider Mapping Human Bones First!", MessageType.Error);
@@ -912,7 +912,7 @@ namespace FastToolsPackage.AutoWrapBodyCollider
             }
 
             // Draw setting Handlers
-            if (_mode == AutoWrapColliderMode.PointLine && !_linePointCS._initLineSphereOver)
+            if (_mode == AutoWrapColliderMode.LineSphereFakeCollider && !_linePointCS._initLineSphereOver)
             {
                 GameObject sel = Selection.activeGameObject;
                 RootColliderManager[] mgs = _targetObj.GetComponentsInChildren<RootColliderManager>();
@@ -963,7 +963,7 @@ namespace FastToolsPackage.AutoWrapBodyCollider
             }
 
             // Handler
-            if (_mode == AutoWrapColliderMode.PointLine && _currentEditHandlers != null
+            if (_mode == AutoWrapColliderMode.LineSphereFakeCollider && _currentEditHandlers != null
                 && handler001 != null
                 && handler002 != null
                 )
@@ -978,25 +978,35 @@ namespace FastToolsPackage.AutoWrapBodyCollider
                 float width = 200f;
                 Rect rect = new Rect(rectScene.width - width, rectScene.height - height, width - 5, height - 25);
                 Color preColor = GUI.color;
-                GUILayout.BeginArea(rect, GUIContent.none, "CurveEditorBackground");
+                if (EditorGUIUtility.isProSkin)
+                    GUILayout.BeginArea(rect, GUIContent.none, "CurveEditorBackground");
+                else
+                {
+                    GUILayout.BeginArea(rect,EditorStyles.helpBox);
+                }
+
                 _handlerRelevanceAPos = EditorGUILayout.Toggle(aPosGUIContent, _handlerRelevanceAPos, GUILayout.MinWidth(100));
                 _handlerRelevanceARadius = EditorGUILayout.Toggle(aRadiusGUIContent, _handlerRelevanceARadius);
                 GUILayout.BeginHorizontal();
+                GUI.color = Color.blue;
                 GUILayout.Label("PointA");
                 float aRadius = GUILayout.HorizontalSlider(_currentEditHandlers.WorldRadiusA * 100f, 0.1f, 30f, GUILayout.MinWidth(50f)) * 0.01f;
                 GUILayout.Label(aRadius.ToString("0.00"));
                 GUILayout.EndHorizontal();
 
+                GUI.color = preColor;
                 EditorTools.DrawSpace(2);
                 _handlerRelevanceBPos = EditorGUILayout.Toggle(aPosGUIContent, _handlerRelevanceBPos);
                 _handlerRelevanceBRadius = EditorGUILayout.Toggle(aRadiusGUIContent, _handlerRelevanceBRadius);
 
                 GUILayout.BeginHorizontal();
+                GUI.color = Color.blue;
                 GUILayout.Label("PointB");
+
                 float bRadius = GUILayout.HorizontalSlider(_currentEditHandlers.WorldRadiusB * 100f, 0.1f, 30f, GUILayout.MinWidth(50f)) * 0.01f;
                 GUILayout.Label(bRadius.ToString("0.00"));
                 GUILayout.EndHorizontal();
-
+                GUI.color = preColor;
                 GUILayout.EndArea();
                 Handles.EndGUI();
 
@@ -1034,6 +1044,7 @@ namespace FastToolsPackage.AutoWrapBodyCollider
                 {
                     if (bone.Value != null)
                     {
+                        Handles.color = Color.gray;
                         Handles.SphereHandleCap(-1, bone.Value.position, bone.Value.rotation, 0.06f, EventType.Repaint);
                         GUIStyle style = new GUIStyle();
                         style.normal.textColor = Color.green;

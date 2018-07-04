@@ -5,35 +5,9 @@ using UnityEditor;
 
 namespace FastToolsPackage.AutoWrapBodyCollider
 {
-    public class CopyColliderFromTarget : MonoBehaviour
+    public class FTPColliderTools
     {
-        [HeaderAttribute("_Src")]
-        public GameObject _src;
-        [HeaderAttribute("_Des")]
-        public GameObject _des;
-
-        [HeaderAttribute("Clear Collider")]
-        public GameObject _clearTarget;
-        public static void ClearCollider(GameObject clearTarget)
-        {
-            if (clearTarget != null)
-            {
-                LineSphereCollider[] scripts = clearTarget.GetComponentsInChildren<LineSphereCollider>(true);
-                RootColliderManager[] managers = clearTarget.GetComponentsInChildren<RootColliderManager>(true);
-                for (int i = 0; i < scripts.Length; i++)
-                {
-                    GameObject.DestroyImmediate(scripts[i]);
-                }
-
-                for (int i = 0; i < managers.Length; i++)
-                {
-                    GameObject.DestroyImmediate(managers[i]);
-                }
-            }
-        }
-
-
-        public static void CopyFromTargetWithAvatar(GameObject src, GameObject des)
+        public static void CopyLineSphereColliderWithAvatar(GameObject src, GameObject des)
         {
             if (src == null || des == null)
             {
@@ -41,11 +15,11 @@ namespace FastToolsPackage.AutoWrapBodyCollider
                 return;
             }
 
-            Animator animator01 = src.GetComponent<Animator>();
-            Animator animator02 = des.GetComponent<Animator>();
-            if (animator01 == null || animator02 == null)
+            Animator animatorSrc = src.GetComponent<Animator>();
+            Animator animatorDes = des.GetComponent<Animator>();
+            if (animatorSrc == null || animatorDes == null)
             {
-                Debug.LogError("animator01 == null || animator02 == null");
+                Debug.LogError("animator src == null || animator src == null");
                 return;
             }
 
@@ -53,13 +27,13 @@ namespace FastToolsPackage.AutoWrapBodyCollider
             for (int i = 0; i < boneCount; i++)
             {
                 HumanBodyBones bone = (HumanBodyBones)i;
-                Transform trs01 = animator01.GetBoneTransform(bone);
-                Transform trsDes = animator02.GetBoneTransform(bone);
+                Transform trs01 = animatorSrc.GetBoneTransform(bone);
+                Transform trsDes = animatorDes.GetBoneTransform(bone);
                 if (trs01 == null)
                     continue;
                 if (trs01 != null && trsDes == null)
                 {
-                    Debug.LogError("两个模型的人形骨骼不一致，请检查");
+                    Debug.LogError("Two humanoid does have the same bone please Check");
                     return;
                 }
 
@@ -93,8 +67,7 @@ namespace FastToolsPackage.AutoWrapBodyCollider
                 }
             }
         }
-
-        public static void CopyFromComponent(GameObject src, GameObject des)
+        public static void CopyLineSphereColliderWithSameHierarchy(GameObject src, GameObject des)
         {
             if (src == null || des == null)
             {
@@ -112,7 +85,7 @@ namespace FastToolsPackage.AutoWrapBodyCollider
                     Transform desTrs = des.transform.Find(path);
                     if (desTrs == null)
                     {
-                        Debug.LogError("复制失败，src和des的节点结构不一致，请检查");
+                        Debug.LogError("Fail: src and des dismatch in Hierarchy...");
                         return;
                     }
                     RootColliderManager smanager = desTrs.GetComponent<RootColliderManager>();
@@ -138,6 +111,24 @@ namespace FastToolsPackage.AutoWrapBodyCollider
                     sp._endBone = s1._endBone;
 
                     smanager._lineSphereColliders.Add(sp);
+                }
+            }
+        }
+
+        public static void ClearLineSphereCollider(GameObject clearTarget)
+        {
+            if (clearTarget != null)
+            {
+                LineSphereCollider[] scripts = clearTarget.GetComponentsInChildren<LineSphereCollider>(true);
+                RootColliderManager[] managers = clearTarget.GetComponentsInChildren<RootColliderManager>(true);
+                for (int i = 0; i < scripts.Length; i++)
+                {
+                    GameObject.DestroyImmediate(scripts[i]);
+                }
+
+                for (int i = 0; i < managers.Length; i++)
+                {
+                    GameObject.DestroyImmediate(managers[i]);
                 }
             }
         }
