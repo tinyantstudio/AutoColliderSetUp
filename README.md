@@ -2,8 +2,8 @@
 Tools set up Character's colliders We use Humanoid Character to get Avatar bone Define. Support Unity's Normal Collider and Fake LineSphere "Collider".
 
 ### How to use
+![2018070600485839](https://user-images.githubusercontent.com/14041295/109735666-1a6a0f00-7bfe-11eb-96fd-520650ba3c78.png)
 
-![Window](https://github.com/frideal/AutoColliderSetUp/blob/master/Files/window.png)
 
 ##### Auto Wrap
 1. Open FTP_Tools/ FTP - AutoWrapHumanBodyColliders.
@@ -26,4 +26,4 @@ Tools set up Character's colliders We use Humanoid Character to get Avatar bone 
 
 
 #### Result
-![Shot](https://github.com/frideal/AutoColliderSetUp/blob/master/Files/shot.png)
+![newworld](https://user-images.githubusercontent.com/14041295/109735716-2c4bb200-7bfe-11eb-844b-17b7267fccb2.png)
